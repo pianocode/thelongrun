@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introduction to random variables for non-data scientists | the long run</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introduction to random variables for non-data scientists" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A minimal example of using markdown with fastpages." />
+<meta property="og:description" content="A minimal example of using markdown with fastpages." />
+<link rel="canonical" href="https://mlgxmez.github.io/thelongrun/markdown/2019/11/12/random-variables.html" />
+<meta property="og:url" content="https://mlgxmez.github.io/thelongrun/markdown/2019/11/12/random-variables.html" />
+<meta property="og:site_name" content="the long run" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-12T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introduction to random variables for non-data scientists" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2019-11-12T00:00:00-06:00","datePublished":"2019-11-12T00:00:00-06:00","description":"A minimal example of using markdown with fastpages.","headline":"Introduction to random variables for non-data scientists","mainEntityOfPage":{"@type":"WebPage","@id":"https://mlgxmez.github.io/thelongrun/markdown/2019/11/12/random-variables.html"},"url":"https://mlgxmez.github.io/thelongrun/markdown/2019/11/12/random-variables.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/thelongrun/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mlgxmez.github.io/thelongrun/feed.xml" title="the long run" /><link rel="shortcut icon" type="image/x-icon" href="/thelongrun/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/thelongrun/">the long run</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+<a class="page-link" href="/thelongrun/about/">About Me</a><a class="page-link" href="/thelongrun/search/">Search</a><a class="page-link" href="/thelongrun/categories/">Tags</a>
+</div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to random variables for non-data scientists</h1>
+<p class="page-description">A minimal example of using markdown with fastpages.</p>
+<p class="post-meta post-meta-title"><time class="dt-published" datetime="2019-11-12T00:00:00-06:00" itemprop="datePublished">
+        Nov 12, 2019
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i> 
+      
+        <a class="category-tags-link" href="/thelongrun/categories/#markdown">markdown</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1">
+<a href="#introduction-to-random-variables-for-non-data-scientists">Introduction to random variables for non-data scientists</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#random-variables-with-tensorflow-probability">Random variables with TensorFlow Probability</a></li>
+<li class="toc-entry toc-h2"><a href="#further-reading">Further reading</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="introduction-to-random-variables-for-non-data-scientists">
+<a class="anchor" href="#introduction-to-random-variables-for-non-data-scientists" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction to random variables for non-data scientists</h1>
+
+<p><img src="https://source.unsplash.com/v1QCJQoD03k/640x426" alt="Books"></p>
+
+<p><strong>Me:</strong> <em>Hey, just took a pic in the library! Look at how old and dusty are these books!</em></p>
+
+<p><strong>You:</strong> <em>Are these the oldest ones you found in there</em></p>
+
+<p><strong>Me:</strong> <em>No, I didn’t inspect all of them. just picked these five.</em></p>
+
+<p><strong>You:</strong> <em>Look! In the background you can see plenty of them. How many books do you think there were in the library?</em></p>
+
+<p><strong>Me:</strong> <em>Uh, I don’t know…Maybe between 3000 and 5000?</em></p>
+
+<p><img class="emoji" title=":clapper:" alt=":clapper:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3ac.png" height="20" width="20"> Cut!</p>
+
+<p>That’s not a scene from a movie. My intention was to develop some intiuition on what random variables are, because this concept will appear again and again in this blog.</p>
+
+<p>To define a random variable, it’s better to start defining the opposite of a random variable.</p>
+<ul>
+  <li>A <strong>deterministic variable</strong> is a variable we are 100% sure about its value.</li>
+  <li>A <strong>random variable</strong> is characterized by absence of complete data, but we can provide an estimate of its true value based on intuition or past experiences.</li>
+</ul>
+
+<p>In short, a deterministic variable is defined by a single value (like a number, text or date). A random variable is defined with a probability distribution over a range of values. This distribution represents what are the possible values a variable can get, each value has probability linked to.</p>
+
+<p>Going back to the short dialogue, there were five books. We call the number of books in the picture a <em>deterministic variable</em>. This is how we represent that variable with a probability distribution.</p>
+
+<p><img src="/images/deterministic_var.png" alt="Pic of deterministic variable"></p>
+
+<p>The number of books in the whole library is actually higher. I didn’t count all of them. I provided an estimate. The factors that led to that estimate (between 3000 and 5000) could be the size of the library, or average thickness of book’s spine. In any case, that estimate could be represented with the followng probability distribution.</p>
+
+<p><img src="/images/uniform_random_var.png" alt="Pic of uniform random variable"></p>
+
+<p>That’s a <strong>uniform distribution</strong>. In simple terms, it means <em>“the probability of the library having 3000 books is as likely as having 5000 or any other quantity in between”</em>.</p>
+
+<p><img src="/images/normal_random_var.png" alt="Pic of gaussian random variable"></p>
+
+<p>That’s a <strong>normal distribution</strong>. It can be interpreted as <em>“the number of books is between 3000 and 5000 but we are more certain that this quantity is somewhere in the middle”</em>.</p>
+
+<p>Probability distributions have the following properties:</p>
+<ul>
+  <li>Probability values are bounded between 0 and 1.</li>
+  <li>The area under the curve of normalized probability distribution is equal to 1</li>
+</ul>
+
+<blockquote>
+  <p>Warning 
+When the value range is lower than one the first property is violated in favor of the second one.</p>
+</blockquote>
+
+<h2 id="random-variables-with-tensorflow-probability">
+<a class="anchor" href="#random-variables-with-tensorflow-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Random variables with TensorFlow Probability</h2>
+
+<p>TensorFlow is one of the most popular frameworks for numerical computation and machine learning. What makes TensorFlow Probability unique are the capabilities to do probabilistic programming. A programming paradigm where you can define random variables.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_probability</span> <span class="k">as</span> <span class="n">tf</span>
+
+<span class="n">deterministic_var</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">5.</span><span class="p">)</span> <span class="c1"># Books in the picture
+</span><span class="n">random_var</span> <span class="o">=</span> <span class="n">tfd</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">4000.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">)</span> <span class="c1"># Books in the library
+</span></code></pre></div></div>
+
+<p>The normal distribution models the number of books in the library. <code class="language-plaintext highlighter-rouge">random_var</code> requires two arguments: the mean and the standard deviation of the distribution.</p>
+
+<p>TensorFlow Probability has a list of functions to interact with random variables. Use them carefully:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Returns the mean of the random variable
+</span><span class="n">random_var</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+ 
+<span class="c1"># Returns the mode of the random variable
+</span><span class="n">random_var</span><span class="p">.</span><span class="n">mode</span><span class="p">()</span>
+ 
+<span class="c1"># Likelihood (probability) that the random variable is equal to 3300
+</span><span class="n">random_var</span><span class="p">.</span><span class="n">prob</span><span class="p">(</span><span class="mi">3300</span><span class="p">)</span>
+ 
+<span class="c1"># Probability that the random variable is lower than or equal to 3300
+</span><span class="n">random_var</span><span class="p">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">3300</span><span class="p">)</span>
+
+<span class="c1"># The 20th percentile fo the random variable 
+</span><span class="n">random_var</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+ 
+<span class="c1"># Generate 10 samples from the distribution of the random variable
+</span><span class="n">random_var</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Random variables and distributions linked to them are some of the essential components of probabilistic programming. We will dive deeper in future posts.</p>
+
+<h2 id="further-reading">
+<a class="anchor" href="#further-reading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Further reading</h2>
+<p>We’ve barely scratched the surface of random variables. Depending on what we are trying to describe some distributions will fit better than others. <a href="https://en.wikipedia.org/wiki/List_of_probability_distributions">Here</a> is a list with (mostly) all the different probability distributions.</p>
+
+<p>In the TensorFlow website there’s a great variety of <a href="https://www.tensorflow.org/tutorials/">tutorials</a>, and also the instructions to install this library in your computer. Similarly for Tensorflow <a href="https://www.tensorflow.org/probability/overview">Probability</a>.</p>
+
+  </div>
+<a class="u-url" href="/thelongrun/markdown/2019/11/12/random-variables.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/thelongrun/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/thelongrun/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/thelongrun/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li><a rel="me" href="https://github.com/fastai" target="_blank" title="fastai"><svg class="svg-icon grey"><use xlink:href="/thelongrun/assets/minima-social-icons.svg#github"></use></svg></a></li>
+<li><a rel="me" href="https://twitter.com/fastdotai" target="_blank" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/thelongrun/assets/minima-social-icons.svg#twitter"></use></svg></a></li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

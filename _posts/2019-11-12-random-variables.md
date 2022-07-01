@@ -32,15 +32,15 @@ In short, a deterministic variable is defined by a single value (like a number, 
 
 Going back to the short dialogue, there were five books. We call the number of books in the picture a *deterministic variable*. This is how we represent that variable with a probability distribution.
 
-![Pic of deterministic variable](/images/deterministic_var.png)
+![]({{site.baseurl}}/images/deterministic_var.png "Deterministic variable")
 
 The number of books in the whole library is actually higher. I didn't count all of them. I provided an estimate. The factors that led to that estimate (between 3000 and 5000) could be the size of the library, or average thickness of book's spine. In any case, that estimate could be represented with the followng probability distribution.
 
-![Pic of uniform random variable](/images/uniform_random_var.png)
+![]({{site.baseurl}}/images/uniform_random_var.png "Uniform random variable")
 
 That's a **uniform distribution**. In simple terms, it means *"the probability of the library having 3000 books is as likely as having 5000 or any other quantity in between"*.
 
-![Pic of gaussian random variable](/images/normal_random_var.png)
+![]({{site.baseurl}}/images/normal_random_var.png "Gaussian random variable")
 
 That's a **normal distribution**. It can be interpreted as *"the number of books is between 3000 and 5000 but we are more certain that this quantity is somewhere in the middle"*.
 

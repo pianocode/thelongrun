@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Building a REST API with TensorFlow Serving (part 1) | the long run</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Building a REST API with TensorFlow Serving (part 1)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A minimal example of using markdown with fastpages." />
+<meta property="og:description" content="A minimal example of using markdown with fastpages." />
+<link rel="canonical" href="https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html" />
+<meta property="og:url" content="https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html" />
+<meta property="og:site_name" content="the long run" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-26T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Building a REST API with TensorFlow Serving (part 1)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-01-26T00:00:00-06:00","datePublished":"2020-01-26T00:00:00-06:00","description":"A minimal example of using markdown with fastpages.","headline":"Building a REST API with TensorFlow Serving (part 1)","mainEntityOfPage":{"@type":"WebPage","@id":"https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html"},"url":"https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/thelongrun/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mlgxmez.github.io/thelongrun/feed.xml" title="the long run" /><link rel="shortcut icon" type="image/x-icon" href="/thelongrun/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/thelongrun/">the long run</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/thelongrun/about/">About Me</a><a class="page-link" href="/thelongrun/search/">Search</a><a class="page-link" href="/thelongrun/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Building a REST API with TensorFlow Serving (part 1)</h1><p class="page-description">A minimal example of using markdown with fastpages.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-01-26T00:00:00-06:00" itemprop="datePublished">
+        Jan 26, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/thelongrun/categories/#markdown">markdown</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#docker-in-a-nutshell">Docker in a nutshell</a></li>
+<li class="toc-entry toc-h2"><a href="#deploying-servables-in-containers">Deploying servables in containers</a></li>
+<li class="toc-entry toc-h2"><a href="#making-requests-to-servables">Making requests to servables</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#with-curl-library">With curl library</a></li>
+<li class="toc-entry toc-h3"><a href="#with-requests-library">With requests library</a></li>
+</ul>
+</li>
+</ul><p><em>This post is the second part of the tutorial of Tensorflow Serving in order to productionize Tensorflow objects and build a REST API to make calls to them. Part 1 is located <img src="/thelongrun/markdown/2020/01/12/tf-serving-part1.html" alt="here">.</em></p>
+
+<p>Once these Tensorflow objects have been generated, it’s time to make them publicly available to everyone. By building a REST API around the object, people will be able to use your service in their project.</p>
+
+<h2 id="docker-in-a-nutshell">
+<a class="anchor" href="#docker-in-a-nutshell" aria-hidden="true"><span class="octicon octicon-link"></span></a>Docker in a nutshell</h2>
+
+<p>Docker is a tool to build isolated environments (containers) in your computer in such a way that it doesn’t get into conflict with any file or program in your local filesystem (the host). Among all its features, I would highlight these:</p>
+
+<ul>
+  <li>You can run containers with only what’s strictly necessary to run your piece of code. Containers are a lighter version of virtual machines.</li>
+  <li>Docker networking capabilities allows you easily communicate multiple containers to each other.</li>
+  <li>Even if your OS is not fully compatible with the tool you want to use, with containers you don’t run into compatibility issues anymore.</li>
+  <li>Docker containers will run in the same way regardless of the hosting environment, be in your computer or a server running in a cloud service.</li>
+</ul>
+
+<p>TensorFlow Serving has a quick start <img src="https://github.com/tensorflow/serving" alt="tutorial"> that’s good introduction to the package.</p>
+
+<pre><code class="language-{bash}"># Download the TensorFlow Serving Docker image and repo
+docker pull tensorflow/serving
+ 
+git clone https://github.com/tensorflow/serving
+# Location of demo models
+TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"
+ 
+# Start TensorFlow Serving container and open the REST API port
+docker run -t --rm -p 8501:8501 \
+    -v "$TESTDATA/saved_model_half_plus_two_cpu:/models/half_plus_two" \
+    -e MODEL_NAME=half_plus_two \
+    tensorflow/serving &amp;
+ 
+# Query the model using the predict API
+curl -d '{"instances": [1.0, 2.0, 5.0]}' \
+    -X POST http://localhost:8501/v1/models/half_plus_two:predict
+ 
+# Returns =&gt; { "predictions": [2.5, 3.0, 4.5] }
+</code></pre>
+
+<p>Pay attention to the arguments passed to the <code class="language-plaintext highlighter-rouge">docker run</code> command, specifically the ones accepting external values:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">-p 8501:8501</code>, publishes the container’s port specified at the right of the colon, and is mapped to the same port in the host, specified at the left of the colon. For REST API, Tensorflow Serving makes use of this port, <strong>so don’t change this parameter in your experiments</strong>.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-v "$TESTDATA/saved_model_half_plus_two_cpu:/models/half_plus_two"</code>, attaches a volume to the container. This volume contains a copy of the folder where you saved your Tensorflow object. Just a level above the folder named <code class="language-plaintext highlighter-rouge">/1/</code>. This folder will appear in the container, under <code class="language-plaintext highlighter-rouge">/models/</code>.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">-e MODEL_NAME=half_plus_two</code>, defines an environment variable. This variable is required to serve your model. For convenience, <strong>use the same identifier as the container’s folder name where you attached your model</strong>.</li>
+</ul>
+
+<h2 id="deploying-servables-in-containers">
+<a class="anchor" href="#deploying-servables-in-containers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deploying servables in containers</h2>
+
+<p>You can design an API for your servable, but TensorFlow Serving abstracts away this step thanks to Docker. Once you deploy the container, you can make a request to the server to perform some kind of computation. Within the body of the request you may attach data (required to run the servable) and obtain some an output in return.</p>
+
+<p>To make the computation you need to specify the endpoint URL of the servable in your request. In the example shown above this endpoint URL is <code class="language-plaintext highlighter-rouge">http://localhost:8501/v1/models/half_plus_two:predict</code>. Now everything is ready to run our TensorFlow objects. We will start with the Keras model:</p>
+
+<pre><code class="language-{bash}">docker run -t --rm -p 8501:8501 -v "$(pwd)/mobilenet_v2_test:/models/mobilenet_v2_test" -e MODEL_NAME=mobilenet_v2_test tensorflow/serving &amp;
+</code></pre>
+
+<p>When this command was executed, the current directory was tmp/ (where I put all my models). and this is what the terminal returned:</p>
+
+<p><img src="/thelongrun/images/docker_run_tf_serving.png" alt="" title="Terminal run TF Serving"></p>
+
+<p>The model is up and ready to send request to.</p>
+
+<h2 id="making-requests-to-servables">
+<a class="anchor" href="#making-requests-to-servables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Making requests to servables</h2>
+
+<p>Now that the container is up and running we can send requests with an image to be classified. I’ll show you two ways to achieve that.</p>
+
+<h3 id="with-curl-library">
+<a class="anchor" href="#with-curl-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>With <code class="language-plaintext highlighter-rouge">curl</code> library</h3>
+
+<p>First I made a little shell script (download it from <img src="https://gist.github.com/mlgxmez/6cd3b5824567ba69edd4468e8de97f1f" alt="here">) that receives the path of an image file as an argument and makes the call itself with the library <code class="language-plaintext highlighter-rouge">curl</code>. We’re going to send the image of this chilling panda:</p>
+
+<p><img src="/thelongrun/images/imagenes-osos-panda.jpg" alt="" title="Panda bear image"></p>
+
+<p>And this is how we make the call with the API we built:</p>
+
+<p><img src="/thelongrun/images/tf_serving_req1.png" alt="" title="Sending request shell"></p>
+
+<p>The second example involves the servable that adds 2 to every element of the vector:</p>
+
+<p><img src="/thelongrun/images/tf_serving_req2.png" alt="" title="Sending request curl"></p>
+
+<h3 id="with-requests-library">
+<a class="anchor" href="#with-requests-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>With <code class="language-plaintext highlighter-rouge">requests</code> library</h3>
+
+<p>The library <code class="language-plaintext highlighter-rouge">requests</code> allows you doing the same thing but using Python code.</p>
+
+<pre><code class="language-{python}">import json
+import requests
+import base64
+ 
+data = {}
+with open('../../Downloads/imagenes-osos-panda.jpg', mode='rb') as file:
+    img = file.read()
+data = {"inputs":[{"b64":base64.encodebytes(img).decode("utf-8")}]}
+ 
+# Making the request
+r = requests.post("http://localhost:8501/v1/models/mobilenet_v2_test:predict", data=json.dumps(data))
+r.content
+# And returns:
+# b'{\n    "outputs": [\n        "giant panda"\n    ]\n}'
+</code></pre>
+<p>In this piece of code, the input image is parsed as a JSON file using Base64 encoding before sending the request. More details on how to accomplish this is explained in the TensorFlow <img src="https://www.tensorflow.org/tfx/serving/api_rest#predict_api" alt="documentation">.</p>
+
+<p>Building a REST API with TensorFlow Serving is the stepping stone to use more advanced features. These will be covered in a future post. Stay tuned for more content on TensorFlow Serving!</p>
+
+  </div><a class="u-url" href="/thelongrun/markdown/2020/01/26/tf-serving-part2.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/thelongrun/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/thelongrun/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/thelongrun/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" target="_blank" title="fastai"><svg class="svg-icon grey"><use xlink:href="/thelongrun/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" target="_blank" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/thelongrun/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

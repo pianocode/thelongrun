@@ -4,9 +4,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Building a REST API with TensorFlow Serving (part 1) | the long run</title>
+<title>Building a REST API with TensorFlow Serving (part 2) | the long run</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Building a REST API with TensorFlow Serving (part 1)" />
+<meta property="og:title" content="Building a REST API with TensorFlow Serving (part 2)" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A minimal example of using markdown with fastpages." />
 <meta property="og:description" content="A minimal example of using markdown with fastpages." />
@@ -16,9 +16,9 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-01-26T00:00:00-06:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Building a REST API with TensorFlow Serving (part 1)" />
+<meta property="twitter:title" content="Building a REST API with TensorFlow Serving (part 2)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-01-26T00:00:00-06:00","datePublished":"2020-01-26T00:00:00-06:00","description":"A minimal example of using markdown with fastpages.","headline":"Building a REST API with TensorFlow Serving (part 1)","mainEntityOfPage":{"@type":"WebPage","@id":"https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html"},"url":"https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-01-26T00:00:00-06:00","datePublished":"2020-01-26T00:00:00-06:00","description":"A minimal example of using markdown with fastpages.","headline":"Building a REST API with TensorFlow Serving (part 2)","mainEntityOfPage":{"@type":"WebPage","@id":"https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html"},"url":"https://mlgxmez.github.io/thelongrun/markdown/2020/01/26/tf-serving-part2.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/thelongrun/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mlgxmez.github.io/thelongrun/feed.xml" title="the long run" /><link rel="shortcut icon" type="image/x-icon" href="/thelongrun/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -89,7 +89,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Building a REST API with TensorFlow Serving (part 1)</h1><p class="page-description">A minimal example of using markdown with fastpages.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-01-26T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Building a REST API with TensorFlow Serving (part 2)</h1><p class="page-description">A minimal example of using markdown with fastpages.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-01-26T00:00:00-06:00" itemprop="datePublished">
         Jan 26, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -120,7 +120,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#with-requests-library">With requests library</a></li>
 </ul>
 </li>
-</ul><p><em>This post is the second part of the tutorial of Tensorflow Serving in order to productionize Tensorflow objects and build a REST API to make calls to them. Part 1 is located <img src="/thelongrun/markdown/2020/01/12/tf-serving-part1.html" alt="here">.</em></p>
+</ul><p><em>This post is the second part of the tutorial of Tensorflow Serving in order to productionize Tensorflow objects and build a REST API to make calls to them. Part 1 is located <a href="/thelongrun/markdown/2020/01/12/tf-serving-part1.html">here</a>.</em></p>
 
 <p>Once these Tensorflow objects have been generated, it’s time to make them publicly available to everyone. By building a REST API around the object, people will be able to use your service in their project.</p>
 
@@ -136,7 +136,7 @@ window.onload = wrap_img;
   <li>Docker containers will run in the same way regardless of the hosting environment, be in your computer or a server running in a cloud service.</li>
 </ul>
 
-<p>TensorFlow Serving has a quick start <img src="https://github.com/tensorflow/serving" alt="tutorial"> that’s good introduction to the package.</p>
+<p>TensorFlow Serving has a quick start <a href="https://github.com/tensorflow/serving">tutorial</a> that’s good introduction to the package.</p>
 
 <pre><code class="language-{bash}"># Download the TensorFlow Serving Docker image and repo
 docker pull tensorflow/serving
@@ -192,7 +192,7 @@ curl -d '{"instances": [1.0, 2.0, 5.0]}' \
 <h3 id="with-curl-library">
 <a class="anchor" href="#with-curl-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>With <code class="language-plaintext highlighter-rouge">curl</code> library</h3>
 
-<p>First I made a little shell script (download it from <img src="https://gist.github.com/mlgxmez/6cd3b5824567ba69edd4468e8de97f1f" alt="here">) that receives the path of an image file as an argument and makes the call itself with the library <code class="language-plaintext highlighter-rouge">curl</code>. We’re going to send the image of this chilling panda:</p>
+<p>First I made a little shell script (download it from <a href="https://gist.github.com/mlgxmez/6cd3b5824567ba69edd4468e8de97f1f">here</a>) that receives the path of an image file as an argument and makes the call itself with the library <code class="language-plaintext highlighter-rouge">curl</code>. We’re going to send the image of this chilling panda:</p>
 
 <p><img src="/thelongrun/images/imagenes-osos-panda.jpg" alt="" title="Panda bear image"></p>
 
@@ -224,7 +224,7 @@ r.content
 # And returns:
 # b'{\n    "outputs": [\n        "giant panda"\n    ]\n}'
 </code></pre>
-<p>In this piece of code, the input image is parsed as a JSON file using Base64 encoding before sending the request. More details on how to accomplish this is explained in the TensorFlow <img src="https://www.tensorflow.org/tfx/serving/api_rest#predict_api" alt="documentation">.</p>
+<p>In this piece of code, the input image is parsed as a JSON file using Base64 encoding before sending the request. More details on how to accomplish this is explained in the TensorFlow <a href="https://www.tensorflow.org/tfx/serving/api_rest#predict_api">documentation</a>.</p>
 
 <p>Building a REST API with TensorFlow Serving is the stepping stone to use more advanced features. These will be covered in a future post. Stay tuned for more content on TensorFlow Serving!</p>
 

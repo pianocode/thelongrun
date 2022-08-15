@@ -158,7 +158,7 @@ window.onload = wrap_img;
         return tf.random.uniform(shape=(N,))
 </code></pre>
 
-<p>Notice that <code class="language-plaintext highlighter-rouge">input_signature</code> in the decorator is not mandatory but always is good to include some safety tests when functions go into production. Now we create instances of these two object and save them in the local filesystem. For more information about <code class="language-plaintext highlighter-rouge">tf.saved_model</code> check this <img src="https://www.tensorflow.org/api_docs/python/tf/saved_model" alt="link"></p>
+<p>Notice that <code class="language-plaintext highlighter-rouge">input_signature</code> in the decorator is not mandatory but always is good to include some safety tests when functions go into production. Now we create instances of these two object and save them in the local filesystem. For more information about <code class="language-plaintext highlighter-rouge">tf.saved_model</code> check this <a href="https://www.tensorflow.org/api_docs/python/tf/saved_model">link</a></p>
 
 <pre><code class="language-{python}"># For the first function
 myfun = Adder()
@@ -205,7 +205,7 @@ tf.saved_model.save(myfun2, "tmp/fun_runif/1")
   <li>The input to the model is a string of bytes, which come in a JSON file. More on that in the second part of the tutorial.</li>
   <li>
 <code class="language-plaintext highlighter-rouge">tf.reshape</code> is at the top of the preprocessing stage due to shape restrictions set in the <code class="language-plaintext highlighter-rouge">@tf.function</code> decorator.</li>
-  <li>The attribute <code class="language-plaintext highlighter-rouge">labels</code> store <em>ImageNet</em> labels (available <img src="https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt" alt="here">) because we want the model to return the label as text.</li>
+  <li>The attribute <code class="language-plaintext highlighter-rouge">labels</code> store <em>ImageNet</em> labels (available <a href="https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt">here</a>) because we want the model to return the label as text.</li>
 </ol>
 
 <p>There’s a slight change in the code when we save this servable:</p>
@@ -237,10 +237,10 @@ tf.saved_model.save(model_string, "tmp/mobilenet_v2_test/1/")
 
 <p><strong>What’s the reasoning behind the choice of parent classes?</strong></p>
 
-<p>Attaching tf.Module class to a tf.function allows the latter to be saved with tf.saved_model. The same goes for the tf.keras.Model. You can find more info <img src="https://www.tensorflow.org/guide/saved_model#reusing_savedmodels_in_python" alt="here">.
+<p>Attaching tf.Module class to a tf.function allows the latter to be saved with tf.saved_model. The same goes for the tf.keras.Model. You can find more info <a href="https://www.tensorflow.org/guide/saved_model#reusing_savedmodels_in_python">here</a>.
 <strong>Why you add /1 in the model’s path?</strong></p>
 
-<p>Servables must have an ID indicating the version of the model we are running inside the container. It’s helpful to keep track of multiple versions of your model when you are monitoring their metrics. You can a more in-depth explanation in the following <img src="https://stackoverflow.com/a/45552938" alt="link">.</p>
+<p>Servables must have an ID indicating the version of the model we are running inside the container. It’s helpful to keep track of multiple versions of your model when you are monitoring their metrics. You can a more in-depth explanation in the following <a href="https://stackoverflow.com/a/45552938">link</a>.</p>
 
 <p>Now, take a break and be ready to tackle TensorFlow Serving in part 2.</p>
 

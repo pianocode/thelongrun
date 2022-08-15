@@ -3,10 +3,10 @@ toc: true
 layout: post
 description: A minimal example of using markdown with fastpages.
 categories: [markdown]
-title: Building a REST API with TensorFlow Serving (part 1)
+title: Building a REST API with TensorFlow Serving (part 2)
 ---
 
-*This post is the second part of the tutorial of Tensorflow Serving in order to productionize Tensorflow objects and build a REST API to make calls to them. Part 1 is located ![here]({{site.baseUrl}}{% link _posts/2020-01-12-tf-serving-part1.md %}).*
+*This post is the second part of the tutorial of Tensorflow Serving in order to productionize Tensorflow objects and build a REST API to make calls to them. Part 1 is located [here]({{site.baseUrl}}{% link _posts/2020-01-12-tf-serving-part1.md %}).*
 
 Once these Tensorflow objects have been generated, it’s time to make them publicly available to everyone. By building a REST API around the object, people will be able to use your service in their project.
 
@@ -19,7 +19,7 @@ Docker is a tool to build isolated environments (containers) in your computer in
 * Even if your OS is not fully compatible with the tool you want to use, with containers you don’t run into compatibility issues anymore.
 * Docker containers will run in the same way regardless of the hosting environment, be in your computer or a server running in a cloud service.
 
-TensorFlow Serving has a quick start ![tutorial](https://github.com/tensorflow/serving) that's good introduction to the package.
+TensorFlow Serving has a quick start [tutorial](https://github.com/tensorflow/serving) that's good introduction to the package.
 
 ```{bash}
 # Download the TensorFlow Serving Docker image and repo
@@ -69,7 +69,7 @@ Now that the container is up and running we can send requests with an image to b
 
 ### With `curl` library
 
-First I made a little shell script (download it from ![here](https://gist.github.com/mlgxmez/6cd3b5824567ba69edd4468e8de97f1f)) that receives the path of an image file as an argument and makes the call itself with the library `curl`. We're going to send the image of this chilling panda:
+First I made a little shell script (download it from [here](https://gist.github.com/mlgxmez/6cd3b5824567ba69edd4468e8de97f1f)) that receives the path of an image file as an argument and makes the call itself with the library `curl`. We're going to send the image of this chilling panda:
 
 ![]({{site.baseurl}}/images/imagenes-osos-panda.jpg "Panda bear image")
 
@@ -101,6 +101,6 @@ r.content
 # And returns:
 # b'{\n    "outputs": [\n        "giant panda"\n    ]\n}'
 ```
-In this piece of code, the input image is parsed as a JSON file using Base64 encoding before sending the request. More details on how to accomplish this is explained in the TensorFlow ![documentation](https://www.tensorflow.org/tfx/serving/api_rest#predict_api).
+In this piece of code, the input image is parsed as a JSON file using Base64 encoding before sending the request. More details on how to accomplish this is explained in the TensorFlow [documentation](https://www.tensorflow.org/tfx/serving/api_rest#predict_api).
 
 Building a REST API with TensorFlow Serving is the stepping stone to use more advanced features. These will be covered in a future post. Stay tuned for more content on TensorFlow Serving!

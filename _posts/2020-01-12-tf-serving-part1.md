@@ -43,7 +43,7 @@ class Randomizer(tf.Module):
         return tf.random.uniform(shape=(N,))
 ```
 
-Notice that `input_signature` in the decorator is not mandatory but always is good to include some safety tests when functions go into production. Now we create instances of these two object and save them in the local filesystem. For more information about `tf.saved_model` check this ![link](https://www.tensorflow.org/api_docs/python/tf/saved_model)
+Notice that `input_signature` in the decorator is not mandatory but always is good to include some safety tests when functions go into production. Now we create instances of these two object and save them in the local filesystem. For more information about `tf.saved_model` check this [link](https://www.tensorflow.org/api_docs/python/tf/saved_model)
 
 ```{python}
 # For the first function
@@ -89,7 +89,7 @@ class CustomMobileNet_string(tf.keras.Model):
 The class inherits from tf.keras.Model and there are few things to discuss about it:
 1. The input to the model is a string of bytes, which come in a JSON file. More on that in the second part of the tutorial.
 2. `tf.reshape` is at the top of the preprocessing stage due to shape restrictions set in the `@tf.function` decorator.
-3. The attribute `labels` store *ImageNet* labels (available ![here](https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt)) because we want the model to return the label as text.
+3. The attribute `labels` store *ImageNet* labels (available [here](https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt)) because we want the model to return the label as text.
 
 There's a slight change in the code when we save this servable:
 
@@ -117,9 +117,9 @@ There are some questions that may arise when you build your own functions or mod
 
 **What’s the reasoning behind the choice of parent classes?**
 
-Attaching tf.Module class to a tf.function allows the latter to be saved with tf.saved_model. The same goes for the tf.keras.Model. You can find more info ![here](https://www.tensorflow.org/guide/saved_model#reusing_savedmodels_in_python).
+Attaching tf.Module class to a tf.function allows the latter to be saved with tf.saved_model. The same goes for the tf.keras.Model. You can find more info [here](https://www.tensorflow.org/guide/saved_model#reusing_savedmodels_in_python).
 **Why you add /1 in the model’s path?**
 
-Servables must have an ID indicating the version of the model we are running inside the container. It’s helpful to keep track of multiple versions of your model when you are monitoring their metrics. You can a more in-depth explanation in the following ![link](https://stackoverflow.com/a/45552938).
+Servables must have an ID indicating the version of the model we are running inside the container. It’s helpful to keep track of multiple versions of your model when you are monitoring their metrics. You can a more in-depth explanation in the following [link](https://stackoverflow.com/a/45552938).
 
 Now, take a break and be ready to tackle TensorFlow Serving in part 2.
